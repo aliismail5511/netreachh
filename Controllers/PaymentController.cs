@@ -22,7 +22,8 @@ namespace NetReach.Api.Controllers
             _cryptomusService = cryptomusService;
         }
 
-        [HttpPost("Webhook")]
+        // 🔥 Cryptomus Webhook (PRODUCTION)
+        [HttpPost("webhook")]
         public async Task<IActionResult> Webhook()
         {
             try
@@ -35,6 +36,7 @@ namespace NetReach.Api.Controllers
                 Console.WriteLine($"[Webhook] Body: {body}");
                 Console.WriteLine("==============================================");
 
+                // Signature (optional – حسب إعدادك)
                 var receivedSign = Request.Headers["sign"].FirstOrDefault();
 
                 bool isTestMode = string.IsNullOrEmpty(receivedSign);
@@ -53,18 +55,20 @@ namespace NetReach.Api.Controllers
                 Console.WriteLine($"[Webhook] Status: {status}");
                 Console.WriteLine($"[Webhook] UUID: {uuid}");
 
+                // ❌ Ignore unpaid orders
                 if (status != "paid" && status != "paid_over")
                 {
                     Console.WriteLine("[Webhook] Payment not completed");
-                    return Ok(new { status = "received", message = $"Status: {status}" });
+                    return Ok(new { status = "ignored", paymentStatus = status });
                 }
 
-                Console.WriteLine("[Webhook] Payment CONFIRMED - Processing order");
+                Console.WriteLine("[Webhook] Payment CONFIRMED");
 
+                // orderId format: any|email|type|quantity
                 var parts = orderId.Split('|');
                 if (parts.Length != 4)
                 {
-                    Console.WriteLine("[Webhook] Invalid order ID format");
+                    Console.WriteLine("[Webhook] ❌ Invalid order ID format");
                     return BadRequest("Invalid order ID format");
                 }
 
@@ -76,91 +80,59 @@ namespace NetReach.Api.Controllers
                 Console.WriteLine($"[Webhook] Type: {type}");
                 Console.WriteLine($"[Webhook] Quantity: {quantity}");
 
+                // Get products
                 var items = _productService.GetRandomItems(type, quantity);
 
-                // ✅ حماية ضد الإيميل الفاضي
                 if (items == null || items.Count == 0)
                 {
-                    Console.WriteLine("[Webhook] ERROR: No items found, email NOT sent");
+                    Console.WriteLine("[Webhook] ❌ OUT OF STOCK – Email not sent");
 
                     return BadRequest(new
                     {
-                        error = "Out of stock",
+                        error = "out_of_stock",
                         message = "No items available for this product"
                     });
                 }
 
                 var productName = _productService.GetProductName(type);
 
-                Console.WriteLine($"[Webhook] Retrieved {items.Count} items");
+                Console.WriteLine($"[Webhook] Sending {items.Count} items");
 
                 await _emailService.SendProductEmailAsync(email, productName, items);
 
-                Console.WriteLine($"[Webhook] Email sent successfully to {email}");
+                Console.WriteLine($"[Webhook] ✅ Email sent to {email}");
                 Console.WriteLine("==============================================");
 
                 return Ok(new
                 {
                     status = "success",
-                    message = "Order processed successfully"
+                    message = "Order processed and email sent"
                 });
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[Webhook] EXCEPTION: {ex.Message}");
-                Console.WriteLine($"[Webhook] Stack Trace: {ex.StackTrace}");
+                Console.WriteLine($"[Webhook] ❌ EXCEPTION: {ex.Message}");
+                Console.WriteLine(ex.StackTrace);
                 Console.WriteLine("==============================================");
 
                 return StatusCode(500, new
                 {
-                    error = "Internal server error",
-                    details = ex.Message
+                    error = "internal_server_error",
+                    message = ex.Message
                 });
             }
         }
 
-        [HttpGet("test")]
-        public IActionResult Test()
+        // ✅ Simple health check
+        [HttpGet("health")]
+        public IActionResult Health()
         {
             return Ok(new
             {
-                ok = true,
-                message = "Payment webhook endpoint is working",
+                status = "ok",
+                service = "payment",
                 time = DateTime.UtcNow
             });
         }
-        [HttpPost("test-webhook")]
-public async Task<IActionResult> TestWebhook([FromBody] TestWebhookRequest request)
-{
-    Console.WriteLine("=== TEST WEBHOOK ===");
-    
-    var orderId = $"{Guid.NewGuid()}|{request.Email}|{request.Type}|{request.Quantity}";
-    
-    // Simulate webhook data
-    var webhookData = new
-    {
-        status = "paid",
-        order_id = orderId,
-        uuid = Guid.NewGuid().ToString()
-    };
-    
-    // Process order
-    var items = _productService.GetRandomItems(request.Type, request.Quantity);
-    var productName = _productService.GetProductName(request.Type);
-    
-    await _emailService.SendProductEmailAsync(request.Email, productName, items);
-    
-    Console.WriteLine($"✅ Test email sent to {request.Email}");
-    
-    return Ok(new { success = true, orderId, items });
-}
-
-// Test request model
-public class TestWebhookRequest
-{
-    public string Email { get; set; } = "";
-    public int Type { get; set; }
-    public int Quantity { get; set; }
-}
     }
 }
