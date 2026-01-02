@@ -99,3 +99,10 @@ C:\Users\lol_a\Downloads\netreach\netreachh\obj\Debug\net8.0\refint\NetReach.Api
 C:\Users\lol_a\Downloads\netreach\netreachh\obj\Debug\net8.0\NetReach.Api.pdb
 C:\Users\lol_a\Downloads\netreach\netreachh\obj\Debug\net8.0\NetReach.Api.genruntimeconfig.cache
 C:\Users\lol_a\Downloads\netreach\netreachh\obj\Debug\net8.0\ref\NetReach.Api.dll
+C:\Users\lol_a\Downloads\netreach\netreachh\bin\Debug\net8.0\publish\web.config
+C:\Users\lol_a\Downloads\netreach\netreachh\bin\Debug\net8.0\publish\appsettings.Development.json
+C:\Users\lol_a\Downloads\netreach\netreachh\bin\Debug\net8.0\publish\appsettings.json
+C:\Users\lol_a\Downloads\netreach\netreachh\bin\Debug\net8.0\publish\NetReach.Api.deps.json
+C:\Users\lol_a\Downloads\netreach\netreachh\bin\Debug\net8.0\publish\NetReach.Api.runtimeconfig.json
+C:\Users\lol_a\Downloads\netreach\netreachh\bin\Debug\net8.0\publish\NetReach.Api.staticwebassets.endpoints.json
+C:\Users\lol_a\Downloads\netreach\netreachh\bin\Debug\net8.0\publish\package-lock.json
