@@ -183,16 +183,26 @@ namespace NetReach.Api.Services
                         
                             <!-- Support Section -->
                             <div style='margin: 40px 0 0 0; padding: 30px 0; border-top: 2px solid #e9ecef;'>
-                                <h4 style='margin: 0 0 15px 0; color: #333; font-size: 17px; font-weight: 600;'>
-                                    💬 Need Help?
-                                </h4>
-                                <p style='margin: 0 0 12px 0; color: #666; font-size: 15px; line-height: 1.7;'>
-                                    Our support team is ready to assist you 24/7:
-                                </p>
-                                <p style='margin: 0; font-size: 15px;'>
-                                    📧 <a href='mailto:{_senderEmail}' style='color: #667eea; text-decoration: none; font-weight: 600;'>{_senderEmail}</a>
-                                </p>
-                            </div>
+    <h4 style='margin: 0 0 15px 0; color: #333; font-size: 17px; font-weight: 600;'>
+        💬 Need Help?
+    </h4>
+    <p style='margin: 0 0 12px 0; color: #666; font-size: 15px; line-height: 1.7;'>
+        Our support team is ready to assist you 24/7:
+    </p>
+
+    <p style='margin: 0 0 8px 0; font-size: 15px;'>
+        📧 <a href='mailto:{_senderEmail}' style='color: #667eea; text-decoration: none; font-weight: 600;'>{_senderEmail}</a>
+    </p>
+
+    <p style='margin: 0; font-size: 15px;'>
+        📲 <span style='color: #333; font-weight: 600;'>Telegram:</span>
+        <a href='https://t.me/netreach_team' 
+           style='color: #667eea; text-decoration: none; font-weight: 600;'>
+            @netreach_team
+        </a>
+    </p>
+</div>
+
                             
                         </td>
                     </tr>
@@ -251,6 +261,7 @@ namespace NetReach.Api.Services
             sb.AppendLine("═══════════════════════════════════════════════");
             sb.AppendLine();
             sb.AppendLine($"Email: {_senderEmail}");
+            sb.AppendLine("Telegram: @netreach_team");
             sb.AppendLine("We're here to help 24/7!");
             sb.AppendLine();
             sb.AppendLine($"© {DateTime.UtcNow.Year} NetReach. All rights reserved.");
