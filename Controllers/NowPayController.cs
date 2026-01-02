@@ -28,7 +28,7 @@ namespace NetReach.Api.Controllers
                 return BadRequest(new { error = "Invalid request", message = "Email is required" });
             }
 
-            var orderId = $"{Guid.NewGuid()}|{request.Email}|{request.Type}|{request.Quantity}";
+            var orderId = $"{Guid.NewGuid()}-{request.Type}-{request.Quantity}";
             var callbackUrl = $"{Request.Scheme}://{Request.Host}/api/Payment/Webhook";
             var returnUrl = "https://net-reach.vercel.app/success";
 

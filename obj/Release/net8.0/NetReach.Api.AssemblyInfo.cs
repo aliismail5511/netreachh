@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NetReach.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c578eea132bd168018c34bc3c46ed1723ed673c2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f0e3a340c99dc056a1b7dbeb85757934630f60cb")]
 [assembly: System.Reflection.AssemblyProductAttribute("NetReach.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NetReach.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
